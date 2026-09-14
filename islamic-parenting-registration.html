@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Islamic Parenting Series 01 — Registration | Wheaton International School</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#22281F;
+    --cream:#FBF7EF;
+    --panel:#FFFFFF;
+    --sage:#E9E3D2;
+    --emerald:#1B4332;
+    --emerald-deep:#12312A;
+    --gold:#B8860B;
+    --gold-soft:#E7CE8C;
+    --line:#D8D0BC;
+    --radius:4px;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.55;
+  }
+
+  .wrap{
+    max-width:640px;
+    margin:0 auto;
+    padding:0 24px 80px;
+  }
+
+  /* ---------- Header / Arch motif ---------- */
+  .masthead{
+    background:var(--emerald);
+    color:var(--cream);
+    text-align:center;
+    padding:52px 24px 90px;
+    position:relative;
+    overflow:hidden;
+  }
+  .masthead .school{
+    font-size:13px;
+    letter-spacing:0.04em;
+    color:var(--gold-soft);
+    margin:0 0 6px;
+  }
+  .masthead h1{
+    font-family:'Amiri', serif;
+    font-weight:700;
+    font-size:clamp(32px, 6vw, 44px);
+    margin:0 0 10px;
+    line-height:1.15;
+  }
+  .masthead .series-tag{
+    display:inline-block;
+    font-size:12px;
+    color:var(--emerald-deep);
+    background:var(--gold-soft);
+    padding:4px 12px;
+    border-radius:999px;
+    margin-bottom:16px;
+    font-weight:600;
+  }
+  .masthead p.sub{
+    font-family:'Amiri', serif;
+    font-style:italic;
+    font-size:18px;
+    max-width:420px;
+    margin:0 auto;
+    color:#EFE9D8;
+  }
+
+  .arch{
+    position:absolute;
+    bottom:-1px; left:50%;
+    transform:translateX(-50%);
+    width:220px; height:110px;
+    border:3px solid var(--gold);
+    border-bottom:none;
+    border-radius:110px 110px 0 0;
+    opacity:0.55;
+  }
+  .arch.a2{ width:160px; height:80px; opacity:0.35; }
+
+  /* ---------- Event facts strip ---------- */
+  .facts{
+    margin:-40px 0 0;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    display:flex;
+    position:relative;
+    z-index:2;
+  }
+  .facts > div{
+    flex:1;
+    padding:18px 20px;
+    text-align:center;
+  }
+  .facts > div + div{ border-left:1px solid var(--line); }
+  .facts .label{
+    font-size:11px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:#7A7261;
+    margin:0 0 4px;
+  }
+  .facts .value{
+    font-weight:600;
+    font-size:15px;
+    margin:0;
+  }
+
+  /* ---------- Notice ---------- */
+  .notice{
+    margin-top:24px;
+    padding:14px 16px;
+    background:#FBF3DE;
+    border-left:3px solid var(--gold);
+    font-size:14px;
+    color:#5C4A15;
+    border-radius:0 4px 4px 0;
+  }
+
+  /* ---------- Section headings ---------- */
+  h2.section-title{
+    font-family:'Amiri', serif;
+    font-size:24px;
+    font-weight:700;
+    color:var(--emerald);
+    margin:48px 0 6px;
+    padding-bottom:10px;
+    border-bottom:2px solid var(--sage);
+  }
+  p.section-note{
+    font-size:13px;
+    color:#8A8270;
+    margin:0 0 18px;
+    font-style:italic;
+  }
+
+  /* ---------- Course outline ---------- */
+  .outline{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+    gap:10px;
+  }
+  .outline li{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    padding:14px 16px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+  }
+  .outline .mark{
+    font-family:'Amiri', serif;
+    color:var(--gold);
+    font-weight:700;
+    font-size:18px;
+    line-height:1.3;
+    min-width:20px;
+  }
+  .outline .text{ font-size:15px; }
+
+  /* ---------- Form ---------- */
+  form{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:32px;
+    margin-top:16px;
+  }
+  .field{ margin-bottom:20px; }
+  .field label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:6px;
+    color:var(--emerald-deep);
+  }
+  .field .hint{
+    font-weight:400;
+    color:#8A8270;
+    font-size:12px;
+  }
+  .field input, .field select{
+    width:100%;
+    padding:11px 12px;
+    font-family:'Work Sans', sans-serif;
+    font-size:15px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:#FEFDFB;
+    color:var(--ink);
+    transition:border-color .16s ease, box-shadow .16s ease;
+  }
+  .field input:hover, .field select:hover{
+    border-color:#B9C9BC;
+  }
+  .field input:focus, .field select:focus, button:focus-visible{
+    outline:2px solid var(--emerald);
+    outline-offset:2px;
+  }
+  .grid-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  @media (max-width:520px){
+    .grid-2{ grid-template-columns:1fr; }
+    .facts{ flex-direction:column; }
+    .facts > div + div{ border-left:none; border-top:1px solid var(--line); }
+  }
+
+  .participants-list{ display:grid; gap:10px; margin-bottom:10px; }
+  .participant-row{ display:flex; gap:8px; }
+  .participant-row input{ flex:1; }
+  .participant-row button{
+    flex:none;
+    background:none;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    color:#A94438;
+    padding:0 12px;
+    cursor:pointer;
+    font-size:14px;
+  }
+  .add-participant{
+    background:none;
+    border:1px dashed var(--line);
+    border-radius:var(--radius);
+    padding:10px 14px;
+    font-size:14px;
+    color:var(--emerald);
+    cursor:pointer;
+    width:100%;
+    text-align:left;
+  }
+  .add-participant:hover{ background:var(--sage); }
+
+  /* ---------- Payment options ---------- */
+  .options{
+    display:grid;
+    gap:10px;
+    margin-bottom:8px;
+  }
+  .option{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 18px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    cursor:pointer;
+    background:#FEFDFB;
+    transition:border-color .16s ease, background .16s ease, box-shadow .16s ease;
+  }
+  .option:hover{ border-color:#B9C9BC; }
+  .option .opt-label{ display:flex; align-items:center; gap:12px; font-size:15px; }
+  .option .opt-text{ font-weight:500; }
+  .option .opt-price{
+    font-family:'Amiri', serif;
+    font-weight:700;
+    font-size:17px;
+    color:var(--emerald-deep);
+  }
+  .option:has(.opt-radio:checked){
+    border-color:var(--emerald);
+    background:#F1F5F1;
+    box-shadow:0 0 0 1px var(--emerald);
+  }
+
+  /* Custom radio dot (native input kept for a11y, visually hidden) */
+  .opt-radio{
+    position:absolute;
+    width:1px; height:1px;
+    padding:0; margin:-1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+    white-space:nowrap;
+    border:0;
+  }
+  .radio-dot{
+    width:19px; height:19px;
+    flex:none;
+    border-radius:50%;
+    border:2px solid var(--line);
+    background:#fff;
+    position:relative;
+    transition:border-color .16s ease;
+  }
+  .radio-dot::after{
+    content:'';
+    position:absolute;
+    inset:4px;
+    border-radius:50%;
+    background:var(--emerald);
+    transform:scale(0);
+    transition:transform .16s ease;
+  }
+  .opt-radio:checked + .radio-dot{ border-color:var(--emerald); }
+  .opt-radio:checked + .radio-dot::after{ transform:scale(1); }
+  .opt-radio:focus-visible + .radio-dot{ outline:2px solid var(--emerald); outline-offset:2px; }
+
+  .payment-summary{
+    display:flex;
+    justify-content:space-between;
+    padding:14px 16px;
+    background:var(--sage);
+    border-radius:var(--radius);
+    margin:6px 0 20px;
+    font-size:15px;
+  }
+  .payment-summary .amount{
+    font-weight:700;
+    color:var(--emerald-deep);
+    font-family:'Amiri', serif;
+    font-size:18px;
+    transition:opacity .12s ease;
+  }
+
+  .payment-link{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    text-align:center;
+    padding:16px;
+    border:none;
+    background:linear-gradient(135deg, var(--emerald) 0%, var(--emerald-deep) 100%);
+    color:var(--cream);
+    border-radius:var(--radius);
+    text-decoration:none;
+    font-family:'Work Sans', sans-serif;
+    font-weight:700;
+    font-size:15.5px;
+    letter-spacing:0.01em;
+    margin-bottom:24px;
+    cursor:pointer;
+    box-shadow:0 6px 16px -6px rgba(18,49,42,0.55);
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .payment-link .arrow{
+    display:inline-block;
+    transition:transform .22s ease;
+  }
+  .payment-link:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 24px -6px rgba(18,49,42,0.7), 0 0 0 3px var(--gold-soft);
+    background:linear-gradient(135deg, #1F5A41 0%, var(--emerald-deep) 100%);
+  }
+  .payment-link:hover .arrow{ transform:translateX(5px); }
+  .payment-link:active{ transform:translateY(0); }
+
+  button.submit{
+    width:100%;
+    padding:15px;
+    background:var(--emerald);
+    color:var(--cream);
+    border:none;
+    border-radius:var(--radius);
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    letter-spacing:0.01em;
+  }
+  button.submit:hover{ background:var(--emerald-deep); }
+
+  .confirm-msg{
+    display:none;
+    margin-top:16px;
+    padding:14px 16px;
+    background:#EAF3EC;
+    border:1px solid var(--emerald);
+    color:var(--emerald-deep);
+    border-radius:var(--radius);
+    font-size:14px;
+  }
+  .error-msg{
+    display:none;
+    margin-top:16px;
+    padding:14px 16px;
+    background:#FBEAE7;
+    border:1px solid #A94438;
+    color:#7A2E23;
+    border-radius:var(--radius);
+    font-size:14px;
+  }
+
+  footer{
+    text-align:center;
+    margin-top:56px;
+    padding-top:28px;
+    border-top:1px solid var(--line);
+    font-size:13px;
+    color:#8A8270;
+  }
+  footer .school-name{
+    font-family:'Amiri', serif;
+    font-size:17px;
+    color:var(--emerald);
+    display:block;
+    margin-bottom:6px;
+  }
+  footer a{ color:var(--emerald); text-decoration:none; }
+  footer a:hover{ text-decoration:underline; }
+  footer .links{ margin-top:8px; }
+  footer .links a + a{ margin-left:14px; }
+
+  /* ---------- Stepper ---------- */
+  .stepper{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:0;
+    margin:28px 0 8px;
+    position:relative;
+    z-index:2;
+  }
+  .stepper .step{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+  }
+  .stepper .dot{
+    width:30px; height:30px;
+    border-radius:50%;
+    background:var(--panel);
+    border:2px solid var(--line);
+    color:#A69C84;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+    font-weight:700;
+    transition:background .35s ease, border-color .35s ease, color .35s ease;
+  }
+  .stepper .label{
+    font-size:11px;
+    letter-spacing:0.03em;
+    color:#A69C84;
+    font-weight:600;
+    transition:color .35s ease;
+  }
+  .stepper .track{
+    width:64px;
+    height:2px;
+    background:var(--line);
+    margin:0 6px 20px;
+    position:relative;
+    overflow:hidden;
+  }
+  .stepper .track::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:var(--emerald);
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform .5s ease;
+  }
+  .stepper.on-step2 .track::after{ transform:scaleX(1); }
+
+  .stepper .step.s1 .dot{ background:var(--emerald); border-color:var(--emerald); color:var(--cream); }
+  .stepper .step.s1 .label{ color:var(--emerald); }
+
+  .stepper .step.s2 .dot{ background:var(--panel); border-color:var(--line); color:#A69C84; }
+  .stepper .step.s2 .label{ color:#A69C84; }
+  .stepper.on-step2 .step.s2 .dot{ background:var(--emerald); border-color:var(--emerald); color:var(--cream); }
+  .stepper.on-step2 .step.s2 .label{ color:var(--emerald); }
+
+  /* ---------- Step transition ---------- */
+  #step1, #paymentPage{
+    transition:opacity .28s ease, transform .28s ease;
+  }
+  #step1.leaving, #paymentPage.leaving{
+    opacity:0;
+    transform:translateY(8px);
+  }
+  #paymentPage.entering{
+    opacity:0;
+    transform:translateY(8px);
+  }
+
+  /* ---------- Payment (Step 2) page ---------- */
+  #paymentPage{ display:none; }
+  .pay-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:32px;
+    margin-top:16px;
+  }
+  .pay-card h2{
+    font-family:'Amiri', serif;
+    font-size:24px;
+    color:var(--emerald);
+    margin:0 0 4px;
+  }
+  .pay-card p.lead{
+    font-size:13px;
+    color:#8A8270;
+    margin:0 0 24px;
+  }
+  .merchant-box{
+    background:linear-gradient(135deg, var(--emerald) 0%, var(--emerald-deep) 100%);
+    color:var(--cream);
+    border-radius:var(--radius);
+    padding:22px;
+    margin-bottom:22px;
+    box-shadow:0 6px 18px -8px rgba(18,49,42,0.55);
+  }
+  .merchant-box .to-label{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-size:12px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+    margin:0 0 10px;
+  }
+  .merchant-box .to-label svg{ width:14px; height:14px; flex:none; }
+  .merchant-box .number-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .merchant-box .number{
+    font-family:'Amiri', serif;
+    font-size:25px;
+    font-weight:700;
+    letter-spacing:0.03em;
+  }
+  .merchant-box .copy-btn{
+    flex:none;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:var(--gold-soft);
+    color:var(--emerald-deep);
+    border:none;
+    border-radius:var(--radius);
+    padding:9px 15px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    transition:background .18s ease, transform .12s ease;
+  }
+  .merchant-box .copy-btn svg{ width:13px; height:13px; }
+  .merchant-box .copy-btn:hover{ background:#f0ddab; }
+  .merchant-box .copy-btn:active{ transform:scale(0.96); }
+  .merchant-box .copy-btn.copied{ background:#BFE3CB; color:var(--emerald-deep); }
+  .merchant-box .sub-label{
+    font-size:12.5px;
+    color:#CFE0D6;
+    margin:12px 0 0;
+    padding-top:12px;
+    border-top:1px solid rgba(255,255,255,0.14);
+  }
+  .pay-instructions{
+    background:#FBF3DE;
+    border-left:3px solid var(--gold);
+    border-radius:0 4px 4px 0;
+    padding:16px 18px;
+    margin-bottom:22px;
+  }
+  .pay-instructions p.title{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-weight:700;
+    font-size:13.5px;
+    margin:0 0 10px;
+    color:#5C4A15;
+  }
+  .pay-instructions p.title svg{ width:15px; height:15px; }
+  .pay-instructions ul{ list-style:none; margin:0; padding:0; }
+  .pay-instructions li{
+    display:flex;
+    gap:9px;
+    align-items:flex-start;
+    font-size:13.5px;
+    color:#5C4A15;
+    margin-bottom:7px;
+  }
+  .pay-instructions li:last-child{ margin-bottom:0; }
+  .pay-instructions li svg{ width:14px; height:14px; flex:none; margin-top:2px; color:var(--gold); }
+  .pay-instructions .next-line{
+    margin-top:12px;
+    padding-top:12px;
+    border-top:1px dashed #E4CE93;
+    font-weight:600;
+    font-size:13.5px;
+    color:var(--emerald-deep);
+  }
+  .back-link{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    margin-bottom:18px;
+    font-size:13px;
+    color:var(--emerald);
+    text-decoration:none;
+    cursor:pointer;
+    background:none;
+    border:none;
+    padding:0;
+    font-family:inherit;
+  }
+  .back-link:hover{ text-decoration:underline; }
+  @media (max-width:520px){
+    .stepper{ margin-top:20px; }
+    .stepper .track{ width:40px; }
+  }
+
+  /* ---------- Submit button loading state ---------- */
+  button.submit{ display:flex; align-items:center; justify-content:center; gap:10px; transition:background .18s ease, opacity .18s ease; }
+  button.submit:disabled{ opacity:0.75; cursor:default; }
+  .spinner{
+    width:16px; height:16px;
+    border:2px solid rgba(251,247,239,0.4);
+    border-top-color:var(--cream);
+    border-radius:50%;
+    animation:spin .7s linear infinite;
+    display:none;
+  }
+  .spinner.on{ display:inline-block; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
+  }
+</style>
+</head>
+<body>
+
+
+<div class="masthead">
+  <p class="school">Wheaton International School</p>
+  <span class="series-tag">Series&nbsp;01</span>
+  <h1>Islamic Parenting</h1>
+  <p class="sub">Parenting in the Light of the Qur'an and Sunnah</p>
+  <div class="arch a2" aria-hidden="true"></div>
+  <div class="arch" aria-hidden="true"></div>
+</div>
+
+<div class="wrap">
+
+  <div class="facts">
+    <div>
+      <p class="label">Date</p>
+      <p class="value">10 October 2026</p>
+    </div>
+    <div>
+      <p class="label">Time</p>
+      <p class="value">9:30 – 12:30</p>
+    </div>
+  </div>
+
+  <div class="notice">
+    Submission of this form does not confirm your seat. Seats are limited — only
+    selected individuals will receive a confirmation SMS to attend the program.
+  </div>
+
+  <div class="stepper" id="stepper">
+    <div class="step s1">
+      <div class="dot">1</div>
+      <div class="label">Details</div>
+    </div>
+    <div class="track"></div>
+    <div class="step s2">
+      <div class="dot">2</div>
+      <div class="label">Payment</div>
+    </div>
+  </div>
+
+  <div id="step1">
+  <h2 class="section-title">Course Outline</h2>
+  <p class="section-note">Sample topics — replace with your final outline before publishing.</p>
+  <ul class="outline">
+    <li><span class="mark">a.</span><span class="text">The Prophetic model of raising children</span></li>
+    <li><span class="mark">b.</span><span class="text">Instilling Aqeedah from the earliest years</span></li>
+    <li><span class="mark">c.</span><span class="text">Discipline with mercy: firmness without harshness</span></li>
+    <li><span class="mark">d.</span><span class="text">Raising a generation connected to the Qur'an</span></li>
+    <li><span class="mark">e.</span><span class="text">Guiding children through screens and modern distractions</span></li>
+    <li><span class="mark">f.</span><span class="text">Building trust and honest communication at home</span></li>
+    <li><span class="mark">g.</span><span class="text">Nurturing Akhlaq: character before achievement</span></li>
+    <li><span class="mark">h.</span><span class="text">Du'a and spiritual protection for your children</span></li>
+  </ul>
+
+  <h2 class="section-title">Registration</h2>
+  <p class="section-note">Fields marked * are required.</p>
+
+  <form id="regForm">
+    <div class="field">
+      <label for="parentName">Parent's Name *</label>
+      <input type="text" id="parentName" name="parentName" autocomplete="name" required>
+    </div>
+
+    <div class="grid-2">
+      <div class="field">
+        <label for="phone">Phone Number *</label>
+        <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" required>
+      </div>
+      <div class="field">
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" name="email" autocomplete="email" inputmode="email" required>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="field">
+        <label for="studentId">Student ID *</label>
+        <input type="text" id="studentId" name="studentId" required>
+      </div>
+      <div class="field">
+        <label for="studentSession">Student Session *</label>
+        <input type="text" id="studentSession" name="studentSession" placeholder="e.g. 2025–26" required>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Additional Participants <span class="hint">(optional — if attending with others)</span></label>
+      <div class="participants-list" id="participantsList"></div>
+      <button type="button" class="add-participant" id="addParticipant">+ Add another participant</button>
+    </div>
+
+    <div class="field">
+      <label>Attendance Option *</label>
+      <div class="options" id="paymentOptions">
+        <label class="option">
+          <span class="opt-label">
+            <input type="radio" name="payOption" value="1000" data-people="1" required class="opt-radio">
+            <span class="radio-dot" aria-hidden="true"></span>
+            <span class="opt-text">1 person</span>
+          </span>
+          <span class="opt-price">৳1,000</span>
+        </label>
+        <label class="option">
+          <span class="opt-label">
+            <input type="radio" name="payOption" value="2000" data-people="2" class="opt-radio">
+            <span class="radio-dot" aria-hidden="true"></span>
+            <span class="opt-text">2 people</span>
+          </span>
+          <span class="opt-price">৳2,000</span>
+        </label>
+        <label class="option">
+          <span class="opt-label">
+            <input type="radio" name="payOption" value="3000" data-people="3" class="opt-radio">
+            <span class="radio-dot" aria-hidden="true"></span>
+            <span class="opt-text">3 people</span>
+          </span>
+          <span class="opt-price">৳3,000</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="payment-summary">
+      <span>Amount payable</span>
+      <span class="amount" id="amountDisplay">৳0</span>
+    </div>
+
+    <button type="button" class="payment-link" id="paymentLink">Proceed to payment link <span class="arrow">→</span></button>
+  </form>
+  </div>
+
+  <!-- ---------- Step 2: Payment page ---------- -->
+  <div id="paymentPage">
+    <button type="button" class="back-link" id="backToForm">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to registration details
+    </button>
+
+    <div class="pay-card">
+      <h2>Mobile Payment Details</h2>
+      <p class="lead">Send the payment, then confirm your transaction ID below.</p>
+
+      <div class="merchant-box">
+        <p class="to-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+          Payment To
+        </p>
+        <div class="number-row">
+          <span class="number" id="merchantNumber">+8801718400428</span>
+          <button type="button" class="copy-btn" id="copyNumber">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span class="copy-btn-text">Copy</span>
+          </button>
+        </div>
+        <p class="sub-label">bKash / Nagad Merchant Number</p>
+      </div>
+
+      <div class="pay-instructions">
+        <p class="title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          Instruction
+        </p>
+        <ul>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            Payment Only
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
+            Do not use Cash In or Send Money
+          </li>
+        </ul>
+        <p class="next-line">After payment, enter your transaction ID below.</p>
+      </div>
+
+      <div class="field">
+        <label for="txId">Transaction ID *</label>
+        <input type="text" id="txId" name="txId" placeholder="e.g. 8N7X2K1QZP" required>
+      </div>
+
+      <button type="button" class="submit" id="finalSubmit">
+        <span class="spinner" id="submitSpinner"></span>
+        <span id="submitLabel">Submit Registration</span>
+      </button>
+
+      <div class="confirm-msg" id="confirmMsg">
+        Thank you — your registration has been received. Selected participants will get a confirmation SMS closer to the event date.
+      </div>
+
+      <div class="error-msg" id="errorMsg">
+        Something went wrong submitting your registration. Please check your connection and try again.
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span class="school-name">Wheaton International School</span>
+    <a href="https://wheaton.edu.bd/" target="_blank" rel="noopener">wheaton.edu.bd</a>
+    <div class="links">
+      <a href="#">Facebook</a>
+      <a href="#">Admissions</a>
+      <a href="#">Contact</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // Respect the user's reduced-motion preference for scripted animation/scrolling
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function smoothScrollTo(el){
+    el.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+  }
+
+  // Payment amount summary
+  const options = document.querySelectorAll('input[name="payOption"]');
+  const amountDisplay = document.getElementById('amountDisplay');
+  options.forEach(opt => {
+    opt.addEventListener('change', () => {
+      amountDisplay.style.opacity = '0';
+      setTimeout(() => {
+        amountDisplay.textContent = '৳' + Number(opt.value).toLocaleString();
+        amountDisplay.style.opacity = '1';
+      }, prefersReducedMotion ? 0 : 90);
+    });
+  });
+
+  // Additional participants
+  const list = document.getElementById('participantsList');
+  const addBtn = document.getElementById('addParticipant');
+  let participantCount = 0;
+
+  function addParticipantRow(){
+    participantCount++;
+    const row = document.createElement('div');
+    row.className = 'participant-row';
+    row.innerHTML = `
+      <input type="text" name="participant${participantCount}" placeholder="Full name">
+      <button type="button" aria-label="Remove">✕</button>
+    `;
+    row.querySelector('button').addEventListener('click', () => row.remove());
+    list.appendChild(row);
+  }
+  addBtn.addEventListener('click', addParticipantRow);
+
+  // ---- Step navigation: registration details -> payment page ----
+  const form = document.getElementById('regForm');
+  const step1 = document.getElementById('step1');
+  const paymentPage = document.getElementById('paymentPage');
+  const confirmMsg = document.getElementById('confirmMsg');
+  const errorMsg = document.getElementById('errorMsg');
+  const stepper = document.getElementById('stepper');
+
+  function goToPayment(){
+    step1.classList.add('leaving');
+    setTimeout(() => {
+      step1.style.display = 'none';
+      step1.classList.remove('leaving');
+      paymentPage.style.display = 'block';
+      paymentPage.classList.add('entering');
+      stepper.classList.add('on-step2');
+      // force reflow so the transition actually runs
+      void paymentPage.offsetWidth;
+      paymentPage.classList.remove('entering');
+      smoothScrollTo(paymentPage);
+      document.getElementById('txId').focus({ preventScroll: true });
+    }, 220);
+  }
+
+  function goToDetails(){
+    paymentPage.classList.add('leaving');
+    setTimeout(() => {
+      paymentPage.style.display = 'none';
+      paymentPage.classList.remove('leaving');
+      step1.style.display = 'block';
+      stepper.classList.remove('on-step2');
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+    }, 220);
+  }
+
+  document.getElementById('paymentLink').addEventListener('click', () => {
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    goToPayment();
+  });
+
+  document.getElementById('backToForm').addEventListener('click', goToDetails);
+
+  // ---- Copy merchant number ----
+  document.getElementById('copyNumber').addEventListener('click', (e) => {
+    const btn = e.currentTarget;
+    const textEl = btn.querySelector('.copy-btn-text');
+    const number = document.getElementById('merchantNumber').textContent.trim();
+    navigator.clipboard.writeText(number).then(() => {
+      btn.classList.add('copied');
+      textEl.textContent = 'Copied!';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        textEl.textContent = 'Copy';
+      }, 1600);
+    });
+  });
+
+  // ---- Final submission: collect all fields and POST to Google Apps Script ----
+  // 1. Deploy your Apps Script as a Web App (Execute as: Me, Access: Anyone).
+  // 2. Paste the resulting /exec URL below.
+  const SCRIPT_URL = 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
+
+  document.getElementById('finalSubmit').addEventListener('click', async () => {
+    const txId = document.getElementById('txId');
+
+    if (!txId.value.trim()) { txId.reportValidity(); return; }
+
+    // Gather additional participant names
+    const participants = Array.from(
+      document.querySelectorAll('#participantsList input')
+    ).map(i => i.value.trim()).filter(Boolean);
+
+    const selectedOption = document.querySelector('input[name="payOption"]:checked');
+
+    const payload = {
+      parentName: document.getElementById('parentName').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      studentId: document.getElementById('studentId').value.trim(),
+      studentSession: document.getElementById('studentSession').value.trim(),
+      participants: participants.join(', '),
+      attendanceOption: selectedOption ? selectedOption.dataset.people + ' person(s)' : '',
+      amount: selectedOption ? selectedOption.value : '',
+      transactionId: txId.value.trim(),
+      submittedAt: new Date().toISOString()
+    };
+
+    const submitBtn = document.getElementById('finalSubmit');
+    const spinner = document.getElementById('submitSpinner');
+    const label = document.getElementById('submitLabel');
+    submitBtn.disabled = true;
+    spinner.classList.add('on');
+    label.textContent = 'Submitting...';
+    errorMsg.style.display = 'none';
+
+    try {
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors', // Apps Script doesn't return CORS headers; we don't need to read the response
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      submitBtn.style.display = 'none';
+      confirmMsg.style.display = 'block';
+      confirmMsg.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'nearest' });
+    } catch (err) {
+      submitBtn.disabled = false;
+      spinner.classList.remove('on');
+      label.textContent = 'Submit Registration';
+      errorMsg.style.display = 'block';
+      errorMsg.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'nearest' });
+    }
+  });
+</script>
+
+</body>
+</html>
