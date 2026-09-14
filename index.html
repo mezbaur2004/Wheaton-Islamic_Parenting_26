@@ -790,6 +790,11 @@
       <h2>Mobile Payment Details</h2>
       <p class="lead">Send the payment, then confirm your transaction ID below.</p>
 
+      <div class="payment-summary" id="payAmountSummary">
+        <span>Amount to send</span>
+        <span class="amount" id="payAmountDisplay">৳0</span>
+      </div>
+
       <div class="merchant-box">
         <p class="to-label">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
@@ -899,9 +904,13 @@
   const paymentPage = document.getElementById('paymentPage');
   const confirmMsg = document.getElementById('confirmMsg');
   const errorMsg = document.getElementById('errorMsg');
+  const payAmountDisplay = document.getElementById('payAmountDisplay');
   const stepper = document.getElementById('stepper');
 
   function goToPayment(){
+    const selectedOption = document.querySelector('input[name="payOption"]:checked');
+    payAmountDisplay.textContent = selectedOption ? '৳' + Number(selectedOption.value).toLocaleString() : '৳0';
+
     step1.classList.add('leaving');
     setTimeout(() => {
       step1.style.display = 'none';
