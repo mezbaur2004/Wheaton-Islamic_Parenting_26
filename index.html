@@ -274,6 +274,12 @@
   .field input:hover, .field select:hover{
     border-color:#B9C9BC;
   }
+  .field input[readonly]{
+    background:var(--sage);
+    color:#5F5A4B;
+    cursor:default;
+  }
+  .field input[readonly]:hover{ border-color:var(--line); }
   .field input:focus, .field select:focus, button:focus-visible{
     outline:2px solid var(--emerald);
     outline-offset:2px;
@@ -315,70 +321,53 @@
   }
   .add-participant:hover{ background:var(--sage); }
 
-  /* ---------- Payment options ---------- */
-  .options{
-    display:grid;
-    gap:10px;
-    margin-bottom:8px;
+  /* ---------- Fee summary (auto-calculated) ---------- */
+  .fee-box{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:#FEFDFB;
+    overflow:hidden;
   }
-  .option{
+  .fee-row{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:14px 18px;
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    cursor:pointer;
-    background:#FEFDFB;
-    position:relative;
-    transition:border-color .16s ease, background .16s ease, box-shadow .16s ease;
+    gap:14px;
+    padding:16px 18px;
   }
-  .option:hover{ border-color:#B9C9BC; }
-  .option .opt-label{ display:flex; align-items:center; gap:12px; font-size:15px; }
-  .option .opt-text{ font-weight:500; }
-  .option .opt-price{
-    font-family:'Amiri', serif;
-    font-weight:700;
-    font-size:17px;
+  .fee-people{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-size:15px;
+    font-weight:600;
     color:var(--emerald-deep);
   }
-  .option:has(.opt-radio:checked){
-    border-color:var(--emerald);
-    background:#F1F5F1;
-    box-shadow:0 0 0 1px var(--emerald);
+  .fee-people svg{ width:17px; height:17px; flex:none; color:var(--emerald); }
+  .fee-amount{
+    font-family:'Amiri', serif;
+    font-weight:700;
+    font-size:24px;
+    color:var(--emerald);
+    line-height:1;
+    transition:opacity .12s ease;
   }
-
-  /* Custom radio dot (native input kept for a11y, visually hidden) */
-  .opt-radio{
-    position:absolute;
-    width:1px; height:1px;
-    padding:0; margin:-1px;
-    overflow:hidden;
-    clip:rect(0,0,0,0);
-    white-space:nowrap;
-    border:0;
+  .fee-note{
+    margin:0;
+    padding:10px 18px;
+    background:var(--sage);
+    border-top:1px solid var(--line);
+    font-size:12.5px;
+    color:#6F6752;
   }
-  .radio-dot{
-    width:19px; height:19px;
-    flex:none;
-    border-radius:50%;
-    border:2px solid var(--line);
-    background:#fff;
-    position:relative;
-    transition:border-color .16s ease;
+  .participants-cap{
+    display:none;
+    margin-top:8px;
+    font-size:12.5px;
+    color:#8A8270;
+    font-style:italic;
   }
-  .radio-dot::after{
-    content:'';
-    position:absolute;
-    inset:4px;
-    border-radius:50%;
-    background:var(--emerald);
-    transform:scale(0);
-    transition:transform .16s ease;
-  }
-  .opt-radio:checked + .radio-dot{ border-color:var(--emerald); }
-  .opt-radio:checked + .radio-dot::after{ transform:scale(1); }
-  .opt-radio:focus-visible + .radio-dot{ outline:2px solid var(--emerald); outline-offset:2px; }
+  .participants-cap.on{ display:block; }
 
   .payment-summary{
     display:flex;
@@ -845,8 +834,8 @@
   </div>
 
   <div class="notice">
-    Submission of this form does not confirm your seat. Seats are limited — only
-    selected individuals will receive a confirmation SMS to attend the program.
+    Your seat is confirmed only after we verify your payment. We check each transaction ID
+    against our payment records, then contact you to confirm your attendance.
   </div>
 
   <div class="stepper" id="stepper">
@@ -900,50 +889,30 @@
         <input type="text" id="studentId" name="studentId" required>
       </div>
       <div class="field">
-        <label for="studentSession">Student Session *</label>
-        <input type="text" id="studentSession" name="studentSession" placeholder="e.g. 2025–26" required>
+        <label for="studentSession">Student Session</label>
+        <input type="text" id="studentSession" name="studentSession" value="2025-26" readonly>
       </div>
     </div>
 
     <div class="field">
-      <label>Additional Participants <span class="hint">(optional — if attending with others)</span></label>
+      <label>Additional Participants <span class="hint">(optional — up to 2)</span></label>
       <div class="participants-list" id="participantsList"></div>
       <button type="button" class="add-participant" id="addParticipant">+ Add another participant</button>
+      <p class="participants-cap" id="participantsCap">Maximum of 3 attendees per registration.</p>
     </div>
 
     <div class="field">
-      <label>Attendance Option *</label>
-      <div class="options" id="paymentOptions">
-        <label class="option">
-          <span class="opt-label">
-            <input type="radio" name="payOption" value="1000" data-people="1" required class="opt-radio">
-            <span class="radio-dot" aria-hidden="true"></span>
-            <span class="opt-text">1 person</span>
+      <label>Amount Payable</label>
+      <div class="fee-box">
+        <div class="fee-row">
+          <span class="fee-people" id="feePeople">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>
+            <span id="feePeopleText">1 attendee</span>
           </span>
-          <span class="opt-price">৳1,000</span>
-        </label>
-        <label class="option">
-          <span class="opt-label">
-            <input type="radio" name="payOption" value="2000" data-people="2" class="opt-radio">
-            <span class="radio-dot" aria-hidden="true"></span>
-            <span class="opt-text">2 people</span>
-          </span>
-          <span class="opt-price">৳2,000</span>
-        </label>
-        <label class="option">
-          <span class="opt-label">
-            <input type="radio" name="payOption" value="3000" data-people="3" class="opt-radio">
-            <span class="radio-dot" aria-hidden="true"></span>
-            <span class="opt-text">3 people</span>
-          </span>
-          <span class="opt-price">৳3,000</span>
-        </label>
+          <span class="fee-amount" id="amountDisplay">৳1,000</span>
+        </div>
+        <p class="fee-note">৳1,000 per attendee · the amount updates as you add participants above.</p>
       </div>
-    </div>
-
-    <div class="payment-summary">
-      <span>Amount payable</span>
-      <span class="amount" id="amountDisplay">৳0</span>
     </div>
 
     <button type="button" class="payment-link" id="paymentLink">Proceed to payment link <span class="arrow">→</span></button>
@@ -1020,7 +989,8 @@
       </button>
 
       <div class="confirm-msg" id="confirmMsg">
-        Thank you — your registration has been received. Selected participants will get a confirmation SMS closer to the event date.
+        Thank you — your registration has been received. We'll verify your payment against the
+        transaction ID you submitted and contact you to confirm your seat.
       </div>
 
       <div class="error-msg" id="errorMsg">
@@ -1062,36 +1032,66 @@
     el.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
   }
 
-  // Payment amount summary
-  const options = document.querySelectorAll('input[name="payOption"]');
+  // ---- Pricing ----
+  const RATE_PER_PERSON = 1000;
+  const MAX_ADDITIONAL = 2;
+
   const amountDisplay = document.getElementById('amountDisplay');
-  options.forEach(opt => {
-    opt.addEventListener('change', () => {
-      amountDisplay.style.opacity = '0';
-      setTimeout(() => {
-        amountDisplay.textContent = '৳' + Number(opt.value).toLocaleString();
-        amountDisplay.style.opacity = '1';
-      }, prefersReducedMotion ? 0 : 90);
-    });
-  });
+  const feePeopleText = document.getElementById('feePeopleText');
+  const capNote = document.getElementById('participantsCap');
 
   // Additional participants
   const list = document.getElementById('participantsList');
   const addBtn = document.getElementById('addParticipant');
   let participantCount = 0;
 
+  function additionalCount(){
+    return list.querySelectorAll('input').length;
+  }
+
+  function totalPeople(){
+    return additionalCount() + 1;
+  }
+
+  function payableAmount(){
+    return totalPeople() * RATE_PER_PERSON;
+  }
+
+  function refreshFee(){
+    const people = totalPeople();
+    feePeopleText.textContent = people === 1 ? '1 attendee' : people + ' attendees';
+
+    amountDisplay.style.opacity = '0';
+    setTimeout(() => {
+      amountDisplay.textContent = '৳' + payableAmount().toLocaleString();
+      amountDisplay.style.opacity = '1';
+    }, prefersReducedMotion ? 0 : 90);
+
+    const atCap = additionalCount() >= MAX_ADDITIONAL;
+    addBtn.style.display = atCap ? 'none' : 'block';
+    capNote.classList.toggle('on', atCap);
+  }
+
   function addParticipantRow(){
+    if (additionalCount() >= MAX_ADDITIONAL) return;
+
     participantCount++;
     const row = document.createElement('div');
     row.className = 'participant-row';
     row.innerHTML = `
-      <input type="text" name="participant${participantCount}" placeholder="Full name">
+      <input type="text" name="participant${participantCount}" placeholder="Full name" required>
       <button type="button" aria-label="Remove">✕</button>
     `;
-    row.querySelector('button').addEventListener('click', () => row.remove());
+    row.querySelector('button').addEventListener('click', () => {
+      row.remove();
+      refreshFee();
+    });
     list.appendChild(row);
+    row.querySelector('input').focus();
+    refreshFee();
   }
   addBtn.addEventListener('click', addParticipantRow);
+  refreshFee();
 
   // ---- Step navigation: registration details -> payment page ----
   const form = document.getElementById('regForm');
@@ -1103,8 +1103,7 @@
   const stepper = document.getElementById('stepper');
 
   function goToPayment(){
-    const selectedOption = document.querySelector('input[name="payOption"]:checked');
-    payAmountDisplay.textContent = selectedOption ? '৳' + Number(selectedOption.value).toLocaleString() : '৳0';
+    payAmountDisplay.textContent = '৳' + payableAmount().toLocaleString();
 
     step1.classList.add('leaving');
     setTimeout(() => {
@@ -1175,8 +1174,6 @@
       document.querySelectorAll('#participantsList input')
     ).map(i => i.value.trim()).filter(Boolean);
 
-    const selectedOption = document.querySelector('input[name="payOption"]:checked');
-
     const payload = {
       parentName: document.getElementById('parentName').value.trim(),
       phone: document.getElementById('phone').value.trim(),
@@ -1184,8 +1181,8 @@
       studentId: document.getElementById('studentId').value.trim(),
       studentSession: document.getElementById('studentSession').value.trim(),
       participants: participants.join(', '),
-      attendanceOption: selectedOption ? selectedOption.dataset.people + ' person(s)' : '',
-      amount: selectedOption ? selectedOption.value : '',
+      attendanceOption: totalPeople() + ' person(s)',
+      amount: String(payableAmount()),
       transactionId: txId.value.trim(),
       submittedAt: new Date().toISOString()
     };
