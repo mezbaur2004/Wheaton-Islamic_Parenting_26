@@ -218,26 +218,70 @@
     margin:0;
     padding:0;
     display:grid;
-    gap:10px;
+    gap:8px;
+    counter-reset:outline;
   }
   .outline li{
+    counter-increment:outline;
     display:flex;
-    gap:14px;
-    align-items:flex-start;
-    padding:14px 16px;
+    gap:16px;
+    align-items:center;
+    padding:15px 18px;
     background:var(--panel);
     border:1px solid var(--line);
+    border-left:3px solid var(--sage);
     border-radius:var(--radius);
+    font-size:15px;
+    line-height:1.45;
+    transition:border-color .18s ease, transform .18s ease, box-shadow .18s ease;
   }
-  .outline .mark{
+  .outline li::before{
+    content:counter(outline, decimal-leading-zero);
+    flex:none;
+    width:34px; height:34px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#FBF3DE;
+    border:1px solid #EFE0BC;
     font-family:'Amiri', serif;
-    color:var(--gold);
     font-weight:700;
-    font-size:18px;
-    line-height:1.3;
-    min-width:20px;
+    font-size:15px;
+    color:var(--gold);
   }
-  .outline .text{ font-size:15px; }
+  .outline li:hover{
+    border-color:#C6BDA5;
+    border-left-color:var(--gold);
+    transform:translateX(2px);
+    box-shadow:0 4px 12px -7px rgba(34,40,31,0.45);
+  }
+  @media (max-width:520px){
+    .outline li{ gap:13px; padding:13px 14px; font-size:14.5px; }
+    .outline li::before{ width:30px; height:30px; font-size:14px; }
+  }
+
+  /* ---------- Inline field validation ---------- */
+  .field-error{
+    display:none;
+    align-items:flex-start;
+    gap:6px;
+    margin:7px 0 0;
+    font-size:12.5px;
+    line-height:1.4;
+    color:#A94438;
+  }
+  .field-error.on{ display:flex; }
+  .field-error svg{ width:13px; height:13px; flex:none; margin-top:2px; }
+  .field.invalid > input{
+    border-color:#A94438;
+    background:#FDF6F5;
+  }
+  .field.invalid > input:focus{ outline-color:#A94438; }
+  .participant-row.invalid input{
+    border-color:#A94438;
+    background:#FDF6F5;
+  }
 
   /* ---------- Form ---------- */
   form{
@@ -853,14 +897,14 @@
   <div id="step1">
   <h2 class="section-title">Course Outline</h2>
   <ul class="outline">
-    <li><span class="mark">a.</span><span class="text">The Prophetic model of raising children</span></li>
-    <li><span class="mark">b.</span><span class="text">Instilling Aqeedah from the earliest years</span></li>
-    <li><span class="mark">c.</span><span class="text">Discipline with mercy: firmness without harshness</span></li>
-    <li><span class="mark">d.</span><span class="text">Raising a generation connected to the Qur'an</span></li>
-    <li><span class="mark">e.</span><span class="text">Guiding children through screens and modern distractions</span></li>
-    <li><span class="mark">f.</span><span class="text">Building trust and honest communication at home</span></li>
-    <li><span class="mark">g.</span><span class="text">Nurturing Akhlaq: character before achievement</span></li>
-    <li><span class="mark">h.</span><span class="text">Du'a and spiritual protection for your children</span></li>
+    <li>The Prophetic model of raising children</li>
+    <li>Instilling Aqeedah from the earliest years</li>
+    <li>Discipline with mercy: firmness without harshness</li>
+    <li>Raising a generation connected to the Qur'an</li>
+    <li>Guiding children through screens and modern distractions</li>
+    <li>Building trust and honest communication at home</li>
+    <li>Nurturing Akhlaq: character before achievement</li>
+    <li>Du'a and spiritual protection for your children</li>
   </ul>
 
   <h2 class="section-title">Registration</h2>
@@ -1131,12 +1175,140 @@
     }, 220);
   }
 
-  document.getElementById('paymentLink').addEventListener('click', () => {
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;
+  // ---- Custom field validation ----
+  // Each rule returns '' when valid, or the message to show.
+  const RULES = {
+    parentName: v => {
+      if (!v) return "Please enter the parent's full name.";
+      if (v.length < 3) return 'That looks too short — please enter the full name.';
+      if (!/[a-zA-Z\u0980-\u09FF]/.test(v)) return 'Please enter a name, not just numbers or symbols.';
+      return '';
+    },
+    phone: v => {
+      if (!v) return 'Please enter a phone number we can reach you on.';
+      const digits = v.replace(/[\s\-()]/g, '');
+      // Accepts 01712345678, 1712345678, 8801712345678, +8801712345678, 008801712345678
+      if (!/^(?:(?:\+|00)?880|0)?1[3-9]\d{8}$/.test(digits)) {
+        return 'Enter a valid Bangladeshi mobile number, e.g. 01712345678 or +8801712345678.';
+      }
+      return '';
+    },
+    email: v => {
+      if (!v) return 'Please enter an email address — your confirmation is sent there.';
+      if (!/^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/.test(v)) return 'That email address does not look right.';
+      return '';
+    },
+    studentId: v => {
+      if (!v) return "Please enter your child's student ID.";
+      if (!/^[A-Za-z0-9\-\/]{3,20}$/.test(v)) return 'Student ID should be 3–20 letters, numbers or dashes.';
+      return '';
+    },
+    txId: v => {
+      if (!v) return 'Please enter the transaction ID from your bKash confirmation.';
+      if (!/^[A-Za-z0-9]{6,20}$/.test(v)) {
+        return 'A bKash transaction ID is 6–20 letters and numbers, with no spaces.';
+      }
+      return '';
     }
-    goToPayment();
+  };
+
+  const ERROR_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16h.01"/></svg>`;
+
+  function errorNodeFor(input){
+    const field = input.closest('.field');
+    let node = field.querySelector('.field-error');
+    if (!node) {
+      node = document.createElement('p');
+      node.className = 'field-error';
+      node.id = input.id + '-error';
+      field.appendChild(node);
+      input.setAttribute('aria-describedby', node.id);
+    }
+    return node;
+  }
+
+  function showError(input, message){
+    const field = input.closest('.field');
+    const node = errorNodeFor(input);
+    field.classList.add('invalid');
+    node.classList.add('on');
+    node.innerHTML = ERROR_ICON + '<span>' + message + '</span>';
+    input.setAttribute('aria-invalid', 'true');
+  }
+
+  function clearError(input){
+    const field = input.closest('.field');
+    const node = field.querySelector('.field-error');
+    field.classList.remove('invalid');
+    if (node) node.classList.remove('on');
+    input.removeAttribute('aria-invalid');
+  }
+
+  function checkField(id){
+    const input = document.getElementById(id);
+    const message = RULES[id](input.value.trim());
+    if (message) { showError(input, message); return false; }
+    clearError(input);
+    return true;
+  }
+
+  // Validate on blur; clear the error as soon as they start fixing it.
+  Object.keys(RULES).forEach(id => {
+    const input = document.getElementById(id);
+    if (!input) return;
+    input.addEventListener('blur', () => { if (input.value.trim()) checkField(id); });
+    input.addEventListener('input', () => {
+      if (input.closest('.field').classList.contains('invalid')) clearError(input);
+    });
+  });
+
+  // Participant rows: a row that exists must have a name in it.
+  function checkParticipants(){
+    let ok = true;
+    let firstBad = null;
+    list.querySelectorAll('.participant-row').forEach(row => {
+      const input = row.querySelector('input');
+      const value = input.value.trim();
+      const bad = value.length < 3;
+      row.classList.toggle('invalid', bad);
+      if (bad) { ok = false; if (!firstBad) firstBad = input; }
+    });
+
+    const field = list.closest('.field');
+    const node = field.querySelector('.field-error') || (() => {
+      const n = document.createElement('p');
+      n.className = 'field-error';
+      field.appendChild(n);
+      return n;
+    })();
+
+    if (!ok) {
+      node.classList.add('on');
+      node.innerHTML = ERROR_ICON + '<span>Enter a full name for each participant, or remove the empty row.</span>';
+      if (firstBad) firstBad.focus();
+    } else {
+      node.classList.remove('on');
+    }
+    return ok;
+  }
+
+  function validateDetails(){
+    // Check every field so the person sees all problems at once, not one at a time.
+    const results = ['parentName', 'phone', 'email', 'studentId'].map(checkField);
+    const participantsOk = checkParticipants();
+
+    if (results.every(Boolean) && participantsOk) return true;
+
+    const firstInvalid = document.querySelector('.field.invalid input, .participant-row.invalid input');
+    if (firstInvalid) {
+      firstInvalid.focus();
+      firstInvalid.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'center' });
+    }
+    return false;
+  }
+
+  document.getElementById('paymentLink').addEventListener('click', () => {
+    if (validateDetails()) goToPayment();
   });
 
   document.getElementById('backToForm').addEventListener('click', goToDetails);
@@ -1166,8 +1338,9 @@
 
   document.getElementById('finalSubmit').addEventListener('click', async () => {
     const txId = document.getElementById('txId');
+    txId.value = txId.value.trim().toUpperCase();
 
-    if (!txId.value.trim()) { txId.reportValidity(); return; }
+    if (!checkField('txId')) { txId.focus(); return; }
 
     // Gather additional participant names
     const participants = Array.from(
